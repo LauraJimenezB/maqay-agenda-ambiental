@@ -13,6 +13,8 @@ const Card = ({ post }) => {
   const alertRed = 39;
   const alertGreen = 40;
 
+  /* Change the className according to the ALERT */
+
   const alertColor = (alertTagsArray) => {
     if (alertTagsArray.includes(alertRed)) {
       return "content alert-red";
@@ -32,15 +34,17 @@ const Card = ({ post }) => {
     return partieObject.name.toUpperCase();
   };
 
-  const location = useLocation();
-  const currentUrl =
-    "http://agendaambiental.info" + location.pathname.replace(/ /g, "%20");
+  /* const location = useLocation(); */
+  /* "https://agendaambiental.info" + location.pathname.replace(/ /g, "%20"); */
+  const currentUrl = "https://agendaambiental.info";
   const shareContent = {
     url: currentUrl,
     content: `${getPartieName()} propone: ${stripPTags(
       post.content.rendered
     ).substring(0, 99)}...`,
   };
+
+  /* ***Handle Like Clicks*** */
 
   useEffect(() => {
     if (localStorage.getItem(post.id)) {
@@ -56,9 +60,7 @@ const Card = ({ post }) => {
   };
 
   return (
-    /* container proposals es "container-proposal" ahora container-card */
     <div className='container-proposal'>
-      {/* content sera container header */}
       <div className={alertColor(post.tags)}>
         <div className='container-proposal-title'>{post.title.rendered}</div>
 

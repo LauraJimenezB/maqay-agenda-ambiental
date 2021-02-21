@@ -1,41 +1,47 @@
-import React, { useEffect, useState } from "react";
-import "./Home.css";
-import Card from "./Card/Card";
-import Footer from "../commons/Footer/Footer";
-import { getTagsByGroupName } from "../../controller/postController";
-import allTagsNameAndNumber from "../../utils/data/allTagsNameAndNumber.js";
-import tagsByGroupName from "../../utils/data/tagsByGroupName.js";
+import React, { useEffect, useMemo, useState } from "react";
 import logoheader from "../../assets/img/logoheader.png";
+import { getTagsByGroupName } from "../../controller/postController";
+import allTagsNameAndNumberData from "../../utils/data/allTagsNameAndNumber.js";
+import tagsByGroupName from "../../utils/data/tagsByGroupName.js";
+import Footer from "../commons/Footer/Footer";
+import Card from "./Card/Card";
+import "./Home.css";
+
 const Home = () => {
-  /* posts to render: posts ya filtrados */
   const [filteredPosts, setFilteredPosts] = useState([]);
-  const [categorySelected, setCategorySelected] = useState("Tema ambiental");
+  const [mainCategory, setMainCategory] = useState("tema-ambiental");
   const [tagsFromCategorySelected, setTagsFromCategorySelected] = useState([]);
 
-  useEffect(() => {
-    const tags = [];
-    getTagsByGroupName(tagsByGroupName, categorySelected).map((tag) => {
-      return tags.push(tag);
-    });
-    return setTagsFromCategorySelected(tags);
-  }, [categorySelected]);
-
-  const filterByCategorySelected = (categorySelected) => {
-    const tags = [];
-    setCategorySelected(categorySelected);
-    getTagsByGroupName(tagsByGroupName, categorySelected).map((tag) => {
-      return tags.push(tag);
-    });
-
-    return setTagsFromCategorySelected(tags);
-  };
+  /* Obtenemos todos los tags correspondientes a la categoría seleccionada,
+   y la almacenamos en un estado*/
 
   useEffect(() => {
-    const newArray = allTagsNameAndNumber.filter((tag) => {
-      return tagsFromCategorySelected.includes(tag.id);
-    });
-    setFilteredPosts(newArray);
+    const alltags = getTagsByGroupName(tagsByGroupName, mainCategory);
+    return setTagsFromCategorySelected(alltags);
+  }, [mainCategory]);
+
+  /* Buscamos en el array con los nombres y números de etiquetas, todas las que incluyan
+  los ids de las etiquetas de la categoría seleccionada
+  y almacenamos en el estado los posts filtrados */
+
+  useEffect(() => {
+    const arrayOfPosts = allTagsNameAndNumberData.filter((tag) =>
+      tagsFromCategorySelected.includes(tag.id)
+    );
+    console.log("arrayOfPosts", arrayOfPosts);
+
+    setFilteredPosts(arrayOfPosts);
   }, [tagsFromCategorySelected]);
+
+  console.log("filteredPosts", filteredPosts);
+
+  /* Función al hacer clic. Recibe la categoría y 
+  volvemos a solicitar los tags correspondientes a la categoría seleccionada para almacenarlas en el estado */
+  const filterByCategorySelected = (mainCategory) => {
+    setMainCategory(mainCategory);
+    const alltags = getTagsByGroupName(tagsByGroupName, mainCategory);
+    return setTagsFromCategorySelected(alltags);
+  };
 
   return (
     <div>
@@ -47,17 +53,17 @@ const Home = () => {
           <p>Ordenar propuestas</p>
           <div className='home-filter-buttons'>
             <button
-              name='Tema ambiental'
-              onClick={(e) => {
-                return filterByCategorySelected(e.target.name);
+              name='tema-ambiental'
+              onClick={(event) => {
+                return filterByCategorySelected(event.target.name);
               }}
             >
               Por tema ambiental
             </button>
             <button
-              name='Partidos políticos'
-              onClick={(e) => {
-                return filterByCategorySelected(e.target.name);
+              name='partidos-politicos'
+              onClick={(event) => {
+                return filterByCategorySelected(event.target.name);
               }}
             >
               Por partido político
@@ -66,16 +72,17 @@ const Home = () => {
         </div>
 
         <section className='home-cards-container'>
-          {filteredPosts.map((post) => {
-            return (
-              <Card
-                post={post}
-                key={post.id}
-                categorySelected={categorySelected}
-                path={`/propuestas/${categorySelected}/${post.name}`}
-              />
-            );
-          })}
+          {filteredPosts.length > 0 &&
+            filteredPosts.map((post) => {
+              return (
+                <Card
+                  post={post}
+                  key={post.id}
+                  mainCategory={mainCategory}
+                  path={`/propuestas/${mainCategory}/${post.slug}`}
+                />
+              );
+            })}
         </section>
       </section>
       <Footer></Footer>

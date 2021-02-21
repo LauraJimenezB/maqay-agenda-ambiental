@@ -1,10 +1,6 @@
 const URLroot = "https://maqay.org/wp-json/";
 const headers = {
   "Content-Type": "application/json",
-  "Access-Control-Allow-Methods": "GET",
-  "Access-Control-Allow-Headers": "*",
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Credentials": "true",
 };
 
 const getOptions = {
@@ -18,6 +14,9 @@ export const getAllPosts = () => {
 };
 
 export const getAllTagsNameAndNumber = () => {
+  return fetch(`${URLroot}tag-groups/v1/terms/`).then((res) => res.json());
+};
+/* export const getAllTagsNameAndNumber = () => {
   return fetch(`${URLroot}tag-groups/v1/terms/`)
     .then((res) => res.json())
     .then((tagGroups) => {
@@ -25,12 +24,10 @@ export const getAllTagsNameAndNumber = () => {
         return { id: object.id, name: object.name };
       });
     });
-};
+}; */
 
 export const getTagsByGroupName = (allTags, groupName) => {
-  const group = allTags.find(
-    (group) => group.label === groupName.replace(/-/g, " ")
-  );
+  const group = allTags.find((group) => group.label === groupName);
   return group.terms;
 };
 /* export const getTagsByGroupName = (groupName) => {
