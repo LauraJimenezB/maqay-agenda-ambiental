@@ -7,6 +7,7 @@ import ButtonFilterNav from "./ButtonFilterNav/ButtonFilterNav.jsx";
 import { getTagsByGroupName } from "../../controller/postController";
 import MetaDecorator from "./MetaDecorator/MetaDecorator";
 import allPosts from "../../utils/data/allPosts.js";
+import { getAllPosts } from '../../controller/postController';
 import allTagsNameAndNumber from "../../utils/data/allTagsNameAndNumber.js";
 import tagsByGroupName from "../../utils/data/tagsByGroupName.js";
 import CategoryDescription from "./CategoryDescription/CategoryDescription.js";
@@ -53,6 +54,9 @@ const Categories = () => {
   }, [categorySelectedTags]);
 
   /* Create property "politicalParties" with only tag number of politicalparties from every post*/
+
+  const allOfThePosts= getAllPosts().then(res => (res));
+  console.log('hola', getAllPosts().then(res => res.json()))
 
   const tagName = () => {
     // post.tags es el array de tags de cada post
