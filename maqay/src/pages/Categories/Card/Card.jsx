@@ -13,6 +13,8 @@ const Card = (props) => {
   const alertRed = 39;
   const alertGreen = 40;
 
+  /* Change the className according to the ALERT */
+
   const alertColor = (alertTagsArray) => {
     if (alertTagsArray.includes(alertRed)) {
       return "content alert-red";
@@ -43,6 +45,7 @@ const Card = (props) => {
   const location = useLocation();
   const currentUrl =
     "http://agendaambiental.info" + location.pathname.replace(/ /g, "%20");
+
   const shareContent = {
     url: currentUrl,
     content: ` propone: ${stripPTags(
@@ -50,6 +53,8 @@ const Card = (props) => {
     ).substring(0, 99)}...`,
     img: 'http://www.geneaconsultores.com/wp-content/uploads/2019/04/Participacion-politica-actitud.png',
   };
+
+  /* ***Handle Like Clicks*** */
 
   useEffect(() => {
     if (localStorage.getItem(post.id)) {
@@ -65,9 +70,7 @@ const Card = (props) => {
   };
 
   return (
-    /* container proposals es "container-proposal" ahora container-card */
     <div className='container-proposal'>
-      {/* content sera container header */}
       <div className={alertColor(post.tags)}>
         <div className='container-proposal-title'>{post.title.rendered}</div>
 

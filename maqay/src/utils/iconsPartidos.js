@@ -1,8 +1,8 @@
 import partidomorado from "../assets/img/iconsPartidos/partidomorado.png";
-import juntosporelperú from "../assets/img/iconsPartidos/juntosporelperú.png";
+import juntosporelperú from "../assets/img/iconsPartidos/juntosporelperu.png";
 import fuerzapopular from "../assets/img/iconsPartidos/fuerzapopular.png";
 import victorianacional from "../assets/img/iconsPartidos/victorianacional.png";
-import acciónpopular from "../assets/img/iconsPartidos/acciónpopular.png";
+import acciónpopular from "../assets/img/iconsPartidos/accionpopular.png";
 import apra from "../assets/img/iconsPartidos/apra.png";
 import partidonacionalista from "../assets/img/iconsPartidos/partidonacionalista.png";
 /* import avanzapaís from "../assets/img/iconsPartidos/avanzapaís.png"; */
@@ -11,12 +11,12 @@ import democraciadirecta from "../assets/img/iconsPartidos/democraciadirecta.png
 import frenteamplio from "../assets/img/iconsPartidos/frenteamplio.png";
 import renacimientounidonacional from "../assets/img/iconsPartidos/renacimientounidonacional.png";
 import partidopopularcristiano from "../assets/img/iconsPartidos/partidopopularcristiano.png";
-import perúlibre from "../assets/img/iconsPartidos/perúlibre.png";
-import perúpatriasegura from "../assets/img/iconsPartidos/perúpatriasegura.png";
-import podemosperú from "../assets/img/iconsPartidos/podemosperú.png";
-import renovaciónpopular from "../assets/img/iconsPartidos/renovaciónpopular.png";
-import somosperú from "../assets/img/iconsPartidos/somosperú.png";
-import uniónporelperú from "../assets/img/iconsPartidos/uniónporelperú.png";
+import perúlibre from "../assets/img/iconsPartidos/perulibre.png";
+import perúpatriasegura from "../assets/img/iconsPartidos/perupatriasegura.png";
+import podemosperú from "../assets/img/iconsPartidos/podemosperu.png";
+import renovaciónpopular from "../assets/img/iconsPartidos/renovacionpopular.png";
+import somosperú from "../assets/img/iconsPartidos/somosperu.png";
+import uniónporelperú from "../assets/img/iconsPartidos/unionporelperu.png";
 import alianzaparaelprogreso from "../assets/img/iconsPartidos/alianzaparaelprogreso.png";
 /* import frepap from "../assets/img/iconsPartidos/frepap.png"; */
 

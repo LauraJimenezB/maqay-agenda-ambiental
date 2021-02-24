@@ -6,9 +6,11 @@ import Footer from "../commons/Footer/Footer";
 import ButtonFilterNav from "./ButtonFilterNav/ButtonFilterNav.jsx";
 //import { getTagsByGroupName } from "../../controller/postController";
 import MetaDecorator from "./MetaDecorator/MetaDecorator";
+
 //import allPosts from "../../utils/data/allPosts.js";
 //import allTagsNameAndNumber from "../../utils/data/allTagsNameAndNumber.js";
 //import tagsByGroupName from "../../utils/data/tagsByGroupName.js";
+
 import CategoryDescription from "./CategoryDescription/CategoryDescription.js";
 import arrowDown from '../../assets/img/arrow-down.svg'
 //import {SimpleSlider} from './slider'
@@ -30,6 +32,7 @@ const Categories = () => {
   /* posts to render */
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [navBarTags, setNavBarTags] = useState([]);
+
   /* set category debe ir dentro de la fx que saca las cosas del windowlocation */
   //const [categorySelectedTags, setCategorySelectedTags] = useState([]);
   const [navShow, setNavShow] = useState(0);
@@ -46,6 +49,7 @@ const Categories = () => {
   const [mainCategory] = useState(category);
   const [allTheTags, setAllTheTags] = useState([])
 
+
   useEffect(()=>{
     setCategorySelected(subcategory)
   }, [subcategory])
@@ -58,7 +62,9 @@ const Categories = () => {
   const politicalParties =  allTheTags.filter(tags=> tags.groupName === POST_GROUP_TYPES.partido); 
  */
 
+
   useEffect(() => {
+
       if(mainCategory==='Tema ambiental') {
         const environmentThemes = allTheTags.filter(tags=> tags.groupName === POST_GROUP_TYPES.tema_ambiente);
        return setNavBarTags(environmentThemes);
@@ -70,9 +76,11 @@ const Categories = () => {
    
   //setNavBarTags(array)
 
+
   /* filtered posts */
   console.log('categorySelectedOUTSIDE',categorySelected)
   useEffect(() => {
+
     getAllPosts().then(postsJson => {
       let filteredPosts=[];
       if (searchField.length>0){
@@ -102,6 +110,7 @@ const Categories = () => {
           return post.tags.includes(color);
        })
        return posts
+
     }
 
   const navClick = () =>{
@@ -183,10 +192,12 @@ const Categories = () => {
          
          {searchField.length>0 ? '' : <div className='main-text'>
             {mainCategory === "Tema ambiental" &&
+
               categorySelected.length > 0 && (
                 <CategoryDescription
                   category={categorySelected.replace(/ /g, "")}
                 />
+
               )}
           </div>}
           <div className='leyenda'>
@@ -216,10 +227,3 @@ const Categories = () => {
 };
 
 export default Categories;
-
-/*  useEffect(() => {
-    const newArray = allTagsNameAndNumber.filter((tag) => {
-      return politicalPartiesTags.includes(tag.number);
-    });
-    setNavBarTags(newArray);
-  }, []); */
