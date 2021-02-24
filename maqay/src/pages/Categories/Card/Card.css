@@ -14,6 +14,7 @@
   width: 280px;
   height: 430px;
   padding: 20px;
+  padding-bottom: 30px;
   display: flex;
   flex-direction: column;
 }
@@ -28,7 +29,7 @@
   height: 25px;
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  z-index: 5;
+  /* z-index: 5; */
 }
 
 .container-proposal-content {
@@ -63,8 +64,21 @@
 
 .social-media-buttons {
   display: flex;
-  align-items: center;
+  align-items: left;
+  flex-direction: row;
+  width: 80px;
+  position: relative;
+  top: 25px;
 }
+
+.fa-heart:before {
+  font-size: 25px;
+}
+
+.fa, .fas {
+  font-size: 18px;
+}
+
 .alert-green {
   background: rgb(0, 155, 58, 0.9);
 }
@@ -75,4 +89,13 @@
 
 .no-alert {
   background: rgb(246, 168, 24, 0.9);
+}
+
+@media only screen and (max-width: 860px) {
+ .container-proposal{
+  margin: 15px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  padding-bottom: 30px;
+ }
 }

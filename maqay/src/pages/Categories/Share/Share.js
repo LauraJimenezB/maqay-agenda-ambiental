@@ -19,13 +19,15 @@ import { Helmet } from "react-helmet";
 /* Argumentos que recibirá: url hashtag y quote, 10 primeras palabras */
 const Share = (shareContent) => {
   <Helmet>
-    <title>{shareContent.content}</title>
-  </Helmet>;
+    <meta property="og:title" content={shareContent.content} />
+    <meta property="og:image" content={shareContent.img} />
+    <meta property="og:image:secure_url" content={shareContent.img} />
+  </Helmet>
 
   return (
     <div className='dropdown share'>
       <button className='dropbtn'>
-        Compartir<i className='fas fa-share-alt'></i>
+        <i className='fas fa-share-alt'></i>
       </button>
       <div className='dropdown-content'>
         <EmailShareButton

@@ -1,0 +1,33 @@
+.carousel{
+  width: 80vw;
+  height: 200px;
+  background-color: white;
+  border-style:hidden;
+  border-color: tomato;
+  border-top-style: solid;
+  border-bottom-style: solid;
+}
+
+.horizontalSlider___281Ls{
+    width: 80vw;
+  height: 200px;
+  
+}
+
+.slideInner___2mfX9{
+  width: 60vw;
+  height: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  text-align: justify;
+}
+
+.buttonBack___1mlaL, .buttonFirst___2rhFr, .buttonLast___2yuh0, .buttonNext___2mOCa, .buttonNext___3Lm3s, .dot___3c3SI {
+    width: 40vw;
+    border-style: hidden;
+    outline: none;
+    border-bottom-style: solid;
+    border-top: none;
+}

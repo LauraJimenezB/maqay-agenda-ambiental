@@ -35,7 +35,7 @@ p {
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
-  z-index: 3;
+  /* z-index: 3; */
 }
 .home-filter-buttons {
   display: flex;
@@ -69,4 +69,22 @@ p {
   width: 100vw;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+}
+
+@media only screen and (max-width: 750px) {
+  .home-cards-container {
+    /* margin-left: 50px; */
+    margin-top: 5%;
+    font-family: "Poppins", sans-serif;
+    height: auto;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  h1{
+    line-height: 25px;
+  }
+  .home-filter-buttons > button{
+    height: 70px;
+  }
 }

@@ -81,7 +81,6 @@ const descriptionCategory = {
         la Mitigación del Cambio Climático y un Proyecto Especial Parque
         Ecológico Nacional "Antonio Raimondi"
       </li>
-      <li></li>
       <li>
         {" "}
         2. El Servicio Nacional de Certificación Ambiental - SENACE es el

@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import logoheader from "../../assets/img/logoheader.png";
 import { getTagsByGroupName } from "../../controller/postController";
-import allTagsNameAndNumberData from "../../utils/data/allTagsNameAndNumber.js";
+
+//import allTagsNameAndNumber from "../../utils/data/allTagsNameAndNumber.js";
 import tagsByGroupName from "../../utils/data/tagsByGroupName.js";
-import Footer from "../commons/Footer/Footer";
-import Card from "./Card/Card";
-import "./Home.css";
+import logoheader from "../../assets/img/logoheader.png";
+import {getAllTagsNameAndNumber} from '../../controller/postController'
 
 const Home = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
@@ -25,12 +25,14 @@ const Home = () => {
   y almacenamos en el estado los posts filtrados */
 
   useEffect(() => {
-    const arrayOfPosts = allTagsNameAndNumberData.filter((tag) =>
-      tagsFromCategorySelected.includes(tag.id)
-    );
-    console.log("arrayOfPosts", arrayOfPosts);
 
-    setFilteredPosts(arrayOfPosts);
+    getAllTagsNameAndNumber().then(postsJson=>{
+      const newArray = postsJson.filter((tag) => {
+        return tagsFromCategorySelected.includes(tag.id);
+      });
+      setFilteredPosts(newArray);
+    })
+
   }, [tagsFromCategorySelected]);
 
   console.log("filteredPosts", filteredPosts);
@@ -72,17 +74,17 @@ const Home = () => {
         </div>
 
         <section className='home-cards-container'>
-          {filteredPosts.length > 0 &&
-            filteredPosts.map((post) => {
-              return (
-                <Card
-                  post={post}
-                  key={post.id}
-                  mainCategory={mainCategory}
-                  path={`/propuestas/${mainCategory}/${post.slug}`}
-                />
-              );
-            })}
+
+          {filteredPosts.map((post) => {
+            return (
+              <Card
+                post={post}
+                key={post.id}
+                path={`/propuestas/${categorySelected}/${post.name}`}
+              />
+            );
+          })}
+
         </section>
       </section>
       <Footer></Footer>

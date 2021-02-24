@@ -2,12 +2,9 @@ import React from "react";
 import "./Card.css";
 import { Link } from "react-router-dom";
 
-const Card = ({ post, categorySelected, path }) => {
-  const nameFile = post.name.replace(/ /g, "");
-  const nameSinTilde = nameFile
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-  const background = `/img/${nameSinTilde}.png`;
+const Card = ({ post, path }) => {
+  const background = `/img/${post.name.replace(/ /g, "")}.png`;
+
 
   return (
     <div className='card-home'>

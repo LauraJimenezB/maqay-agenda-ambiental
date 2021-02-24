@@ -6,9 +6,9 @@ import { writeLike } from "../../../controller/likesController";
 import iconsPartidos from "../../../utils/iconsPartidos";
 import allTagsNameAndNumber from "../../../utils/data/allTagsNameAndNumber.js";
 
-const Card = ({ post }) => {
+const Card = (props) => {
   const [like, setLike] = useState(false);
-
+  const post = props.post;
   /* Numbers set by Wordpress */
   const alertRed = 39;
   const alertGreen = 40;
@@ -24,24 +24,34 @@ const Card = ({ post }) => {
       return "content no-alert";
     }
   };
-
   const stripPTags = (content) => content.replace(/<\/?p[^>]*>/g, "");
 
   const getPartieName = () => {
-    const partieObject = allTagsNameAndNumber.find((tag) => {
-      return (tag.id = post.politicalParties);
-    });
-    return partieObject.name.toUpperCase();
-  };
+    const partieObject = props.politicalParties.find((tag) => 
+      tag.id===post.tags[1]
+    );
+    if(partieObject) {
+      return partieObject.name.toUpperCase();
+    }
+  }; 
 
-  /* const location = useLocation(); */
-  /* "https://agendaambiental.info" + location.pathname.replace(/ /g, "%20"); */
-  const currentUrl = "https://agendaambiental.info";
+  //console.log(post.tags)
+/* 
+  const getPartieName = () => {
+    props.
+  }
+ */
+  //console.log(post.tags[1])
+  const location = useLocation();
+  const currentUrl =
+    "http://agendaambiental.info" + location.pathname.replace(/ /g, "%20");
+
   const shareContent = {
     url: currentUrl,
-    content: `${getPartieName()} propone: ${stripPTags(
+    content: ` propone: ${stripPTags(
       post.content.rendered
     ).substring(0, 99)}...`,
+    img: 'http://www.geneaconsultores.com/wp-content/uploads/2019/04/Participacion-politica-actitud.png',
   };
 
   /* ***Handle Like Clicks*** */
@@ -73,9 +83,9 @@ const Card = ({ post }) => {
 
         <div className='container-proposal-footer'>
           <div className='proposal-footer-logo'>
-            Propuestas de:
+            Propuesta de:
             {post.politicalParties &&
-              post.politicalParties.map((idPartido) => {
+              post.politicalParties.slice(0, 1).map((idPartido) => {
                 return (
                   <img
                     src={`${iconsPartidos[idPartido]}`}
@@ -89,11 +99,10 @@ const Card = ({ post }) => {
           </div>
 
           <div className='social-media-buttons'>
-            <i
+            <label className='like-box'><i
               className={like ? "fas fa-heart" : "far fa-heart"}
               onClick={onLikeClick}
-            ></i>
-            <label className='like-box'></label>
+            ></i></label>
             {Share(shareContent)}
           </div>
         </div>

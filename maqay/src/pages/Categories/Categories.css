@@ -12,15 +12,12 @@ header {
 header > span {
   text-transform: capitalize;
 }
-main {
-  display: grid;
-  grid-template-columns: 70vw 25vw;
-  grid-gap: 5vw;
-}
 
 .text-bold {
   font-size: 34px;
   font-weight: bold;
+  width: 70vw;
+  text-align: center;
 }
 .highlighted {
   color: #c2306d;
@@ -31,25 +28,57 @@ main {
   flex-direction: column;
   align-items: center;
   padding-bottom: 200px;
+  margin-top: 60px;
 }
 .main-text {
   text-align: justify;
   font-size: 14px;
-  width: 60vw;
+  width: 80vw;
+  margin-top: 50px;
 }
-
+.arrow-down{
+  width: 15px;
+  height: 15px;
+  margin-left: 10px;
+  position: relative;
+  top: 2px;
+}
 .leyenda {
   text-align: justify;
   font-size: 13px;
-  width: 50vw;
+  width: 45vw;
   border: 2px #c4c4c4 solid;
   padding: 10px;
   border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 20px;
+}
+.leyenda div{
+  margin: 5px;
+  margin-bottom: 0px;
 }
 .leyenda-highlited {
-  padding: 3px;
+  padding: 5px;
   color: #ffffff;
-  border-radius: 5px;
+  border-radius: 20px;
+  margin-right: 5px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.leyenda-text{
+  margin-bottom: auto;
+  margin-top: auto;
+  margin-left: 5px;
+  width: 40vw;
+}
+.flexLeyenda{
+  display: flex;
+  flex-direction: row;
 }
 .categories-cards-container {
   display: flex;
@@ -62,17 +91,60 @@ nav {
   display: flex;
   flex-direction: column;
   border: 1px #c4c4c4 solid;
+  width: 100vw;
 }
-
+.nav-btn-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 95vw;
+  height: 50px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.nav-right-container{
+  display: flex;
+  height: 50px;
+}
+.nav-right-container input{
+  margin-right: 10px;
+  height: 30px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.list-nav{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: white;
+  width: 95vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+.list-nav-hidden{
+  display: none;
+}
 .sticky {
   position: fixed;
   top: 0;
   width: 100%;
 }
 
-nav > span {
+.list-nav > span {
   border-bottom: 1px #c4c4c4 solid;
   height: 40px;
+}
+
+.btn-list{
+  background-color: white;
+  font-weight: 600; /* 
+    height: 8%; */
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: .95rem;
+  margin-right: 2vw;
 }
 
 .btn-back {
@@ -82,4 +154,105 @@ nav > span {
   outline: none;
   border: none;
   cursor: pointer;
+  font-size: .95rem;
+}
+
+.btn-back i {
+  margin-right: 5px;
+  position: relative;
+  top:2px;
+}
+
+.sliderContainer{
+  width: 80vw;
+  height: 200px;
+  background-color: rgb(131, 184, 185);
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+ul{
+  padding-inline-start: 0%;
+}
+
+.none{
+  display: none;
+}
+.hiddenMore{
+  display: none;
+}
+
+@media only screen and (max-width: 860px) {
+  header span{
+    font-size: 42px;
+  }
+  .leyenda{
+    width: 65vw;
+  }
+  .leyenda-text{
+    width: 60vw;
+  }
+  }
+
+@media only screen and (max-width: 750px) {
+  header span{
+    font-size: 35px;
+  }
+  main{
+    grid:none;
+  }
+  nav{
+    width: 100%;
+  }
+  .nav-btn-container{
+    display: flex;
+    width: 100vw;
+  }
+  .btn-back{
+    width: 30vw;
+  }
+  .btn-back span{
+    font-size: 0.85rem;
+  }
+  .nav-right-container input{
+    width: 35vw;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  .hiddenMore{
+    display: flex;
+  }
+  .more{
+    display: none;
+  }
+  .btn-list{
+    font-size: 0.9rem;
+    width: 25vw;
+    display: flex;
+    flex-direction: row;
+    height: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+    justify-content: center;
+  }
+  .view-categories{
+    margin-top: 70px;
+  }
+
+  .main-text{
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .main-text ul{
+    margin-block: 0%;
+    padding-inline-start: 0%;
+    margin-top: 15px;
+  }
+  .leyenda{
+    width: 80vw;
+  }
+  .leyenda-text{
+    width: 60vw;
+  }
 }
