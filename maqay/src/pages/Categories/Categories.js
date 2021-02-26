@@ -19,6 +19,11 @@ const POST_GROUP_TYPES = {
   tema_ambiente: 2
 }
 
+const POST_GROUP_TYPES_PARAMS = {
+  partido: "Partidos políticos",
+  tema_ambiente: "Tema ambiental"
+}
+
 const tagCategorias = {
   red: 39,
   yellow: 41,
@@ -27,12 +32,11 @@ const tagCategorias = {
 
 const Categories = () => {
   /* posts to render */
+  const [ posts, setPosts ] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [navBarTags, setNavBarTags] = useState([]);
-  /* set category debe ir dentro de la fx que saca las cosas del windowlocation */
-  //const [categorySelectedTags, setCategorySelectedTags] = useState([]);
   const [navShow, setNavShow] = useState(0);
-  const [searchField, setSearchField] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
 
   const location = useLocation();
@@ -41,16 +45,20 @@ const Categories = () => {
 
   /* Pass URL Params to the States */
   const { category, subcategory } = useParams();
-  const [categorySelected , setCategorySelected] = useState(subcategory);
-  const [mainCategory] = useState(category);
-  const [allTheTags, setAllTheTags] = useState([])
+  const [ selectedSubcategory ] = useState(subcategory);
+  const [ mainCategory ] = useState(category);
+  const [allTheTags, setAllTheTags] = useState([]);
 
-  useEffect(()=>{
-    setCategorySelected(subcategory)
-  }, [subcategory])
+  // useEffect(()=>{
+  //   setSelectedSubcategory(subcategory)
+  // }, [subcategory])
   
   useEffect(() => {
-    getAllTagsNameAndNumber().then(res=>setAllTheTags(res));
+    const apiCalls = [getAllTagsNameAndNumber(), getAllPosts()];
+    Promise.all(apiCalls).then(([ tags, posts ]) => {
+      setAllTheTags(tags);
+      setPosts(posts);
+    });
   }, []);
   
   /* const environmentThemes = allTheTags.filter(tags=> tags.groupName === POST_GROUP_TYPES.tema_ambiente); 
@@ -58,62 +66,63 @@ const Categories = () => {
  */
 
   useEffect(() => {
-      if(mainCategory==='Tema ambiental') {
-        const environmentThemes = allTheTags.filter(tags=> tags.groupName === POST_GROUP_TYPES.tema_ambiente);
-       return setNavBarTags(environmentThemes);
-      } else {
-        const politicalParties =  allTheTags.filter(tags=> tags.groupName === POST_GROUP_TYPES.partido); 
-        return setNavBarTags (politicalParties);
-      }
-  }, [mainCategory, allTheTags]); 
-   
-  //setNavBarTags(array)
-
-  /* filtered posts */
-  console.log('categorySelectedOUTSIDE',categorySelected)
-  useEffect(() => {
-    getAllPosts().then(postsJson => {
-      let filteredPosts=[];
-      if (searchField.length>0){
-        filteredPosts =  postsJson.filter((post) => {
-          return post.content.rendered.includes(searchField);
-        });
-      } else {
-        console.log('categorySelectedINSIDE',categorySelected)
-        const objectSelectedCategory= allTheTags.find((tag) => {
-          return tag.name===categorySelected
-        })
-        console.log(objectSelectedCategory)
-        if(objectSelectedCategory) {
-          filteredPosts = postsJson.filter((post) => {
-            const tags = post.tags;
-            return tags.includes(objectSelectedCategory.id);
-          });
-        }
-      }
-      setFilteredPosts(filteredPosts);
-    }); 
-  }, [categorySelected, subcategory, searchField.length, searchField, allTheTags]);  
-    
-
-     const arrayByColor = (numOfPosts, color) => {
-        const posts = numOfPosts.filter((post)=>{
-          return post.tags.includes(color);
-       })
-       return posts
+    if (allTheTags.length === 0) { // make sure we have the tags from the api
+      return;
     }
-
-  const navClick = () =>{
-    if(navShow===0){
-      setNavShow(1);
+    if ( mainCategory === POST_GROUP_TYPES_PARAMS.tema_ambiente ) {
+      const environmentThemes = allTheTags.filter(tags=> tags.groupName === POST_GROUP_TYPES.tema_ambiente);
+      setNavBarTags(environmentThemes);
     } else {
-      setNavShow(0)
+      const politicalParties =  allTheTags.filter(tags=> tags.groupName === POST_GROUP_TYPES.partido); 
+      setNavBarTags(politicalParties);
     }
-    return navShow;
+  }, [ mainCategory, allTheTags ]); 
+
+
+  useEffect(() => {
+    if (!searchQuery) {
+      return;
+    }
+    const filteredPosts = posts.filter((post) => {
+        return post.content.rendered.includes(searchQuery);
+    });
+    setFilteredPosts(filteredPosts); 
+  }, [searchQuery, posts]);  
+    
+  /* filtered posts */
+  console.log('categorySelected OUTSIDE',selectedSubcategory);
+
+  useEffect(() => {
+    if (posts.length === 0) { // no hay posts todavia
+      return;
+    }
+    let filteredPosts = [];
+    console.log('categorySelected INSIDE', selectedSubcategory);
+
+    const tagSubcategory = allTheTags.find((tag) => {
+      return tag.name === selectedSubcategory
+    });
+    console.log(selectedSubcategory);
+
+    if (tagSubcategory) {
+      filteredPosts = posts.filter((post) => post.tags.includes(tagSubcategory.id));
+    }
+    setFilteredPosts(filteredPosts);
+  }, [selectedSubcategory, posts, allTheTags]);
+
+  const arrayByColor = (numOfPosts, color) => {
+    const posts = numOfPosts.filter((post)=>{
+      return post.tags.includes(color);
+    })
+    return posts
+  }
+
+  const navClick = () => {
+    setNavShow((navShow === 0) ? 1 : 0);
   }
 
   const More = () =>{
-    if(mainCategory==='Tema ambiental'){
+    if (mainCategory === POST_GROUP_TYPES_PARAMS.tema_ambiente) {
       return <span><span className='hiddenMore'>Tema</span><span className='more'>Cambiar de tema ambiental</span></span>
     } else {
       return <span><span className='hiddenMore'>Partido</span><span className='more'>Cambiar de partido político</span></span>
@@ -122,15 +131,15 @@ const Categories = () => {
 
   return (
     <div>
-      {categorySelected.length > 0 && (
+      {selectedSubcategory.length > 0 && (
         <MetaDecorator
-          title={`Agenda Ambiental - ${categorySelected}`}
+          title={`Agenda Ambiental - ${selectedSubcategory}`}
           description={currentUrl}
-          imgURL={`/img/${categorySelected.replace(/<\/?p[^>]*>/g, "")}.png`}
+          imgURL={`/img/${selectedSubcategory.replace(/<\/?p[^>]*>/g, "")}.png`}
         />
       )}
       <header>
-      {searchField.length>0 ? <span>Resultados para "{searchField}"</span> : <span>{categorySelected}</span>}
+        {searchQuery.length > 0 ? <span>Resultados para "{searchQuery}"</span> : <span>{selectedSubcategory}</span>}
       </header>
       <main>
       <div className='navContainer'>
@@ -141,18 +150,19 @@ const Categories = () => {
               onClick={() => {
                 window.location = "/";
               }}
-            ><i className='fas fa-chevron-left'></i><span>REGRESAR</span>
+            >
+              <i className='fas fa-chevron-left'></i><span>REGRESAR</span>
             </button>
             <div className='nav-right-container'>
-            <input
-              type="search"
-              placeholder="Buscar propuesta"
-              value={searchField} onChange={(e)=>setSearchField(e.target.value)} 
-            />
-            <button className='btn-list' onClick={()=>navClick()}><More/><img src={arrowDown} className='arrow-down' alt='arrowDown'/></button>
-          </div>
+              <input
+                type="search"
+                placeholder="Buscar propuesta"
+                value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} 
+              />
+              <button className='btn-list' onClick={() => navClick()}><More/><img src={arrowDown} className='arrow-down' alt='arrowDown'/></button>
             </div>
-          <div className={navShow===1 ? 'list-nav':'list-nav-hidden'}>
+          </div>
+          <div className={navShow === 1 ? 'list-nav' : 'list-nav-hidden'}>
           {navBarTags.map((tag) => {
             return (
               <ButtonFilterNav
@@ -168,8 +178,10 @@ const Categories = () => {
         <section className='view-categories'>
           <span className='text-bold'>
             HEMOS IDENTIFICADO{" "}
-            <span className='highlighted'>{/* searchField.length>0 ? filteredArray.length :  */filteredPosts.length}</span>{" "}
-            PROPUESTAS
+            <span className='highlighted'>
+              {/* searchField.length>0 ? filteredArray.length :  */ filteredPosts.length }
+            </span>
+            {" "} PROPUESTAS
           </span>
            {/*  <div className='sliderContainer'>
            {mainCategory === "Tema ambiental" &&
@@ -180,11 +192,11 @@ const Categories = () => {
               )}
           </div>  */}
          
-         {searchField.length>0 ? '' : <div className='main-text'>
-            {mainCategory === "Tema ambiental" &&
-              categorySelected.length > 0 && (
+         {searchQuery.length > 0 ? '' : <div className='main-text'>
+            { mainCategory === POST_GROUP_TYPES_PARAMS.tema_ambiente &&
+              selectedSubcategory.length > 0 && (
                 <CategoryDescription
-                  category={categorySelected.replace(/ /g, "")}
+                  category={selectedSubcategory.replace(/ /g, "")}
                 />
               )}
           </div>}
@@ -203,7 +215,7 @@ const Categories = () => {
           <div className='categories-cards-container'>
             {/* Recibe los posts filtrados según el tema seleccionado */}
             {filteredPosts.map((post) => {
-              return <Card key={post.id} post={post}  politicalParties={navBarTags} /* tagNameHandler={tagName()} *//>;
+              return <Card key={post.id} post={post} politicalParties={navBarTags} /* tagNameHandler={tagName()} *//>;
             })}
           </div>
           }
