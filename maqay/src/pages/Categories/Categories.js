@@ -45,9 +45,6 @@ const Categories = () => {
   const [mainCategory] = useState(category);
   const [allTheTags, setAllTheTags] = useState([])
 
-  useEffect(()=>{
-    setCategorySelected(subcategory)
-  }, [subcategory])
   
   useEffect(() => {
     getAllTagsNameAndNumber().then(res=>setAllTheTags(res));
